@@ -3,7 +3,7 @@ import BooksTable from "@/components/layout/Books/BooksTable";
 import { Button } from "@/components/ui/button";
 import { useGetBooksQuery } from "@/redux/api/booksApi";
 import { Book as BookIcon, Plus } from "lucide-react";
-import { Link } from "react-router";
+import { useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -13,6 +13,7 @@ import {
 } from "../components/ui/card";
 
 const Books = () => {
+	const [modal, setModal] = useState(false);
 	const { data, isLoading, isError } = useGetBooksQuery(undefined, {
 		refetchOnReconnect: true,
 	});
@@ -83,7 +84,10 @@ const Books = () => {
 					</p>
 				</div>
 				{/* MODAL */}
-				<AddBookModal />
+				<AddBookModal
+					modal={modal}
+					setModal={() => setModal(!modal)}
+				/>
 			</div>
 			<Card>
 				<CardHeader>
@@ -106,12 +110,13 @@ const Books = () => {
 								Start building your library by adding your first
 								book.
 							</p>
-							<Link to="/add-book">
-								<Button>
-									<Plus className="h-4 w-4 mr-2" />
-									Add First Book
-								</Button>
-							</Link>
+							<Button
+								onClick={() => setModal(true)}
+								className="bg-gradient-to-r from-accent to-secondary hover:from-secondary hover:to-accent transition-colors duration-300"
+							>
+								<Plus className="h-4 w-4 mr-2" />
+								Add First Book
+							</Button>
 						</div>
 					) : (
 						<BooksTable books={books} />

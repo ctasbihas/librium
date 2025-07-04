@@ -58,8 +58,13 @@ const genres = [
 	{ value: "ROMANCE", label: "Romance" },
 ];
 
-const AddBookModal = () => {
-	const [modal, setModal] = useState(false);
+const AddBookModal = ({
+	modal,
+	setModal,
+}: {
+	modal: boolean;
+	setModal: () => void;
+}) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const form = useForm<BookFormData>({
 		resolver: zodResolver(bookSchema),
@@ -84,7 +89,7 @@ const AddBookModal = () => {
 					border: "1px solid #059669",
 				},
 			});
-			setModal(false);
+			setModal();
 			form.reset();
 		} catch (error: any) {
 			const apiMessage =

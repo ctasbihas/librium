@@ -31,7 +31,7 @@ const Navbar = () => {
 	];
 
 	return (
-		<nav className="bg-gradient-to-r from-card via-surface to-card border-b border-border/50 shadow-xl backdrop-blur-sm animate-slide-in-left">
+		<nav className="sticky top-0 z-50 bg-gradient-to-r from-card via-surface to-card border-b border-border/50 shadow-xl backdrop-blur-sm animate-slide-in-left">
 			<div className="container mx-auto px-4">
 				<div className="flex items-center justify-between h-16">
 					<Link
