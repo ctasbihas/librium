@@ -25,9 +25,21 @@ const BookRow = ({ book }: { book: Book }) => {
 		try {
 			const response = await deleteBook(id).unwrap();
 			if (response.success) {
-				toast.success(`Book "${title}" deleted successfully!`);
+				toast.success(`Book "${title}" deleted successfully!`, {
+					style: {
+						backgroundColor: "#16a34a",
+						color: "white",
+						border: "1px solid #15803d",
+					},
+				});
 			} else {
-				toast.error(response.message || "Failed to delete book.");
+				toast.error(response.message || "Failed to delete book.", {
+					style: {
+						backgroundColor: "#ef4444",
+						color: "white",
+						border: "1px solid #dc2626",
+					},
+				});
 			}
 		} catch (error: any) {
 			const apiMessage =

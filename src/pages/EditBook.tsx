@@ -42,7 +42,7 @@ const bookSchema = z.object({
 	genre: z.string().min(1, "Genre is required"),
 	isbn: z.string().min(10, "ISBN must be at least 10 characters"),
 	description: z.string().optional(),
-	copies: z.number().min(1, "At least 1 copy is required"),
+	copies: z.number().min(0, "Copies cannot be negative"),
 });
 
 const EditBook = () => {
@@ -75,18 +75,30 @@ const EditBook = () => {
 			genre: "",
 			isbn: "",
 			description: "",
-			copies: 1,
+			copies: 0,
 		},
 	});
 
 	useEffect(() => {
 		if (!id) {
-			toast.error("Book ID is required");
+			toast.error("Book ID is required", {
+				style: {
+					backgroundColor: "#ef4444",
+					color: "white",
+					border: "1px solid #dc2626",
+				},
+			});
 			navigate("/books");
 			return;
 		}
 		if (error) {
-			toast.error("Failed to load book");
+			toast.error("Failed to load book", {
+				style: {
+					backgroundColor: "#ef4444",
+					color: "white",
+					border: "1px solid #dc2626",
+				},
+			});
 			navigate("/books");
 			return;
 		}
@@ -108,10 +120,22 @@ const EditBook = () => {
 		try {
 			setIsSubmitting(true);
 			await updateBook({ id, book: data }).unwrap();
-			toast.success("Book updated successfully!");
+			toast.success("Book updated successfully!", {
+				style: {
+					backgroundColor: "#10b981",
+					color: "white",
+					border: "1px solid #059669",
+				},
+			});
 			navigate("/books");
 		} catch (error) {
-			toast.error("Failed to update book");
+			toast.error("Failed to update book", {
+				style: {
+					backgroundColor: "#ef4444",
+					color: "white",
+					border: "1px solid #dc2626",
+				},
+			});
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -213,12 +237,14 @@ const EditBook = () => {
 									label="Number of Copies"
 									placeholder="Enter number of copies"
 									type="number"
-									onChange={(e) =>
+									onChange={(e) => {
+										const value =
+											parseInt(e.target.value) || 0;
 										form.setValue(
 											"copies",
-											parseInt(e.target.value) || 1
-										)
-									}
+											Math.max(0, value)
+										);
+									}}
 								/>
 
 								<InputField

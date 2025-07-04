@@ -12,7 +12,6 @@ import {
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -25,7 +24,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { useAddBookMutation } from "@/redux/api/booksApi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
@@ -43,8 +41,7 @@ const bookSchema = z.object({
 	genre: z.string().min(1, "Genre is required"),
 	isbn: z.string().min(10, "ISBN must be at least 10 characters"),
 	description: z.string().optional(),
-	copies: z.number().min(1, "Must have at least 1 copy"),
-	available: z.boolean(),
+	copies: z.number().min(0, "Copies cannot be negative"),
 });
 
 const genres = [
@@ -72,8 +69,7 @@ const AddBookModal = () => {
 			genre: "",
 			isbn: "",
 			description: "",
-			copies: 1,
-			available: true,
+			copies: 0,
 		},
 	});
 	const [addBook] = useAddBookMutation();
@@ -81,11 +77,13 @@ const AddBookModal = () => {
 		try {
 			setIsLoading(true);
 			const response = await addBook(data).unwrap();
-			toast.success(
-				response.success === true
-					? `Book "${response.title}" added successfully!`
-					: "Book added successfully!"
-			);
+			toast.success(`Book "${response.data.title}" added successfully!`, {
+				style: {
+					backgroundColor: "#10b981",
+					color: "white",
+					border: "1px solid #059669",
+				},
+			});
 			setModal(false);
 			form.reset();
 		} catch (error: any) {
@@ -93,7 +91,13 @@ const AddBookModal = () => {
 				error.data.error.message ||
 				error.data.message ||
 				"Failed to add book. Please try again.";
-			toast.error(apiMessage);
+			toast.error(apiMessage, {
+				style: {
+					backgroundColor: "#ef4444",
+					color: "white",
+					border: "1px solid #dc2626",
+				},
+			});
 			console.error("Error adding book:", error);
 		} finally {
 			setIsLoading(false);
@@ -178,35 +182,10 @@ const AddBookModal = () => {
 								label="Number of Copies"
 								placeholder="1"
 								type="number"
-								onChange={(e) =>
-									form.setValue(
-										"copies",
-										parseInt(e.target.value) || 1
-									)
-								}
-							/>
-							<FormField
-								control={form.control}
-								name="available"
-								render={({ field }) => (
-									<FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-										<div className="space-y-0.5">
-											<FormLabel className="text-base">
-												Available
-											</FormLabel>
-											<FormDescription>
-												Mark this book as available for
-												borrowing
-											</FormDescription>
-										</div>
-										<FormControl>
-											<Switch
-												checked={field.value}
-												onCheckedChange={field.onChange}
-											/>
-										</FormControl>
-									</FormItem>
-								)}
+								onChange={(e) => {
+									const value = parseInt(e.target.value) || 0;
+									form.setValue("copies", Math.max(0, value));
+								}}
 							/>
 						</div>
 						<InputField
