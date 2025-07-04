@@ -55,10 +55,9 @@ const BorrowSummary = () => {
 			</div>
 		);
 	}
-	console.log(data);
 
 	const totalBooksBorrowed = borrowSummary.reduce(
-		(sum, item) => sum + item.totalQuantityBorrowed,
+		(sum, item) => sum + item.totalQuantity,
 		0
 	);
 
@@ -150,14 +149,14 @@ const BorrowSummary = () => {
 								{borrowSummary.map((item, index) => (
 									<TableRow key={index}>
 										<TableCell className="font-medium">
-											{item.bookTitle}
+											{item.book.title}
 										</TableCell>
 										<TableCell className="font-mono text-sm">
-											{item.isbn}
+											{item.book.isbn}
 										</TableCell>
 										<TableCell className="text-right">
 											<span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-												{item.totalQuantityBorrowed}
+												{item.totalQuantity}
 											</span>
 										</TableCell>
 									</TableRow>

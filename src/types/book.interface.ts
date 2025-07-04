@@ -25,23 +25,10 @@ export interface UpdateBookInput extends Partial<CreateBookInput> {
 	_id: string;
 }
 
-export interface BorrowRequest {
-	bookId: string;
-	quantity: number;
-	dueDate: string;
-}
-
-export interface Borrow {
-	_id: string;
-	bookId: string;
-	book?: Book;
-	quantity: number;
-	dueDate: string;
-	borrowedAt: string;
-}
-
 export interface IBorrowSummary {
-	bookTitle: string;
-	isbn: string;
-	totalQuantityBorrowed: number;
+	book: {
+		title: string;
+		isbn: string;
+	};
+	totalQuantity: number;
 }
