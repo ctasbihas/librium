@@ -109,7 +109,12 @@ const AddBookModal = () => {
 	const handleAddBook = async (data: BookFormData) => {
 		try {
 			setIsLoading(true);
-			dispatch(addBook(data));
+			dispatch(
+				addBook({
+					_id: Date.now().toString(), // Temporary unique id
+					...data,
+				})
+			);
 			toast.success("Book added successfully!");
 			form.reset();
 		} catch (error) {

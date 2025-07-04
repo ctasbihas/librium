@@ -20,7 +20,7 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
-export function ThemeProvider({
+function ThemeProvider({
 	children,
 	defaultTheme = "system",
 	storageKey = "vite-ui-theme",
@@ -67,7 +67,7 @@ export function ThemeProvider({
 	);
 }
 
-export const useTheme = () => {
+const useTheme = () => {
 	const context = useContext(ThemeProviderContext);
 
 	if (context === undefined)
@@ -75,3 +75,5 @@ export const useTheme = () => {
 
 	return context;
 };
+
+export { ThemeProvider, ThemeProviderContext, useTheme };

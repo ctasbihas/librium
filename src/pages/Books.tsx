@@ -3,6 +3,7 @@ import BooksTable from "@/components/layout/Books/BooksTable";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useGetBooksQuery } from "@/redux/api/baseApi";
+import type { Book } from "@/types/book.interface";
 import { Book as BookIcon, Plus } from "lucide-react";
 import { Link } from "react-router";
 import {
@@ -15,7 +16,7 @@ import {
 
 const Books = () => {
 	const { data, isLoading, isError } = useGetBooksQuery(undefined);
-	const books = [];
+	const books: Book[] = [];
 
 	console.log({ data, isLoading, isError });
 
