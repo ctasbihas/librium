@@ -47,6 +47,20 @@ const bookSchema = z.object({
 	available: z.boolean(),
 });
 
+const genres = [
+	{ value: "FICTION", label: "Fiction" },
+	{ value: "NON_FICTION", label: "Non-Fiction" },
+	{ value: "FANTASY", label: "Fantasy" },
+	{ value: "SCIENCE", label: "Science" },
+	{ value: "BIOGRAPHY", label: "Biography" },
+	{ value: "HISTORY", label: "History" },
+	{ value: "SELF_HELP", label: "Self-Help" },
+	{ value: "MEMOIR", label: "Memoir" },
+	{ value: "PSYCHOLOGY", label: "Psychology" },
+	{ value: "THRILLER", label: "Thriller" },
+	{ value: "ROMANCE", label: "Romance" },
+];
+
 const AddBookModal = () => {
 	const [modal, setModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -137,39 +151,14 @@ const AddBookModal = () => {
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectItem value="FICTION">
-													Fiction
-												</SelectItem>
-												<SelectItem value="NON_FICTION">
-													Non-Fiction
-												</SelectItem>
-												<SelectItem value="FANTASY">
-													Fantasy
-												</SelectItem>
-												<SelectItem value="SCIENCE">
-													Science
-												</SelectItem>
-												<SelectItem value="BIOGRAPHY">
-													Biography
-												</SelectItem>
-												<SelectItem value="HISTORY">
-													History
-												</SelectItem>
-												<SelectItem value="SELF_HELP">
-													Self-Help
-												</SelectItem>
-												<SelectItem value="MEMOIR">
-													Memoir
-												</SelectItem>
-												<SelectItem value="PSYCHOLOGY">
-													Psychology
-												</SelectItem>
-												<SelectItem value="THRILLER">
-													Thriller
-												</SelectItem>
-												<SelectItem value="ROMANCE">
-													Romance
-												</SelectItem>
+												{genres.map((genre) => (
+													<SelectItem
+														key={genre.value}
+														value={genre.value}
+													>
+														{genre.label}
+													</SelectItem>
+												))}
 											</SelectContent>
 										</Select>
 										<FormMessage />

@@ -15,8 +15,6 @@ import {
 const Books = () => {
 	const { data, isLoading, isError } = useGetBooksQuery(undefined, {
 		refetchOnReconnect: true,
-		refetchOnFocus: true,
-		refetchOnMountOrArgChange: true,
 	});
 
 	if (isLoading && !isError) {
