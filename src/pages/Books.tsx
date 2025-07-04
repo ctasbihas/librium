@@ -1,8 +1,7 @@
 import AddBookModal from "@/components/layout/Books/AddBookModal";
 import BooksTable from "@/components/layout/Books/BooksTable";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { useGetBooksQuery } from "@/redux/api/baseApi";
+import { useGetBooksQuery } from "@/redux/api/booksApi";
 import { Book as BookIcon, Plus } from "lucide-react";
 import { Link } from "react-router";
 import {
@@ -17,10 +16,58 @@ const Books = () => {
 	const { data, isLoading, isError } = useGetBooksQuery(undefined);
 
 	if (isLoading && !isError) {
-		return <div className="text-center py-12">Loading...</div>;
+		return (
+			<div className="container mx-auto px-4 py-8">
+				<div className="flex justify-between items-center mb-8">
+					<div>
+						<div className="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
+						<div className="h-4 w-64 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+					</div>
+					<div className="h-10 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+				</div>
+				<div className="bg-white dark:bg-gray-900 rounded-lg shadow">
+					<div className="p-6 border-b border-gray-200 dark:border-gray-700">
+						<div className="h-6 w-40 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
+						<div className="h-4 w-56 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+					</div>
+					<div className="p-6">
+						<table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+							<thead>
+								<tr>
+									{Array.from({ length: 5 }).map((_, i) => (
+										<th
+											key={i}
+											className="px-6 py-3"
+										>
+											<div className="h-4 w-24 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+										</th>
+									))}
+								</tr>
+							</thead>
+							<tbody>
+								{Array.from({ length: 6 }).map((_, rowIdx) => (
+									<tr key={rowIdx}>
+										{Array.from({ length: 5 }).map(
+											(_, colIdx) => (
+												<td
+													key={colIdx}
+													className="px-6 py-4"
+												>
+													<div className="h-4 w-20 bg-gray-100 dark:bg-gray-800 rounded animate-pulse" />
+												</td>
+											)
+										)}
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		);
 	}
 
-	const { data: books } = data;
+	const books = data.data;
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -33,16 +80,8 @@ const Books = () => {
 						Manage your book collection with ease
 					</p>
 				</div>
-				{/* Modal for Add Book */}
-				<Dialog>
-					<DialogTrigger asChild>
-						<Button className="bg-gradient-to-r dark:from-secondary from-accent dark:to-accent to-secondary dark:hover:to-secondary hover:to-accent transition-colors duration-300 cursor-pointer">
-							<Plus className="h-4 w-4 mr-2" />
-							Add New Book
-						</Button>
-					</DialogTrigger>
-					<AddBookModal />
-				</Dialog>
+				{/* MODAL */}
+				<AddBookModal />
 			</div>
 			<Card>
 				<CardHeader>
