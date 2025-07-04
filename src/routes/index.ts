@@ -1,6 +1,7 @@
 import App from "@/App";
 import AddBook from "@/pages/AddBook";
 import Books from "@/pages/Books";
+import BorrowSummary from "@/pages/BorrowSummary";
 import EditBook from "@/pages/EditBook";
 import { createBrowserRouter } from "react-router";
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
 					}
 					return params.id;
 				},
+			},
+			{
+				path: "borrow-summary",
+				Component: BorrowSummary,
 			},
 		],
 	},
