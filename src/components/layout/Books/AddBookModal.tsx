@@ -67,7 +67,11 @@ const AddBookModal = () => {
 		try {
 			setIsLoading(true);
 			const response = await addBook(data).unwrap();
-			toast.success(response.message || "Book added successfully!");
+			toast.success(
+				response.success === true
+					? `Book "${response.title}" added successfully!`
+					: "Book added successfully!"
+			);
 			setModal(false);
 			form.reset();
 		} catch (error: any) {

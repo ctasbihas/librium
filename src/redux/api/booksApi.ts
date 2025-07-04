@@ -31,6 +31,7 @@ export const booksApi = createApi({
 				method: "POST",
 				body: book,
 			}),
+			invalidatesTags: [{ type: "book", id: "LIST" }],
 		}),
 		updateBook: builder.mutation({
 			query: ({ id, ...book }) => ({
@@ -44,6 +45,10 @@ export const booksApi = createApi({
 				url: `/api/books/${id}`,
 				method: "DELETE",
 			}),
+			invalidatesTags: (id) => [
+				{ type: "book", id },
+				{ type: "book", id: "LIST" },
+			],
 		}),
 	}),
 });

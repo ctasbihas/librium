@@ -13,7 +13,11 @@ import {
 } from "../components/ui/card";
 
 const Books = () => {
-	const { data, isLoading, isError } = useGetBooksQuery(undefined);
+	const { data, isLoading, isError } = useGetBooksQuery(undefined, {
+		refetchOnReconnect: true,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
 
 	if (isLoading && !isError) {
 		return (

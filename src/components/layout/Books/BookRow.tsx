@@ -12,23 +12,31 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { useDeleteBookMutation } from "@/redux/api/booksApi";
 import type { Book } from "@/types/book.interface";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Loader2Icon, Trash2 } from "lucide-react";
 import { Link } from "react-router";
 import { toast } from "sonner";
 
 const BookRow = ({ book }: { book: Book }) => {
-	const API_BASE_URL = import.meta.env.NEXT_PUBLIC_API_BASE_URL;
+	const [deleteBook, { isLoading }] = useDeleteBookMutation();
+
 	const handleDelete = async (id: string, title: string) => {
-		fetch(`${API_BASE_URL}/api/books/${id}`, {
-			method: "DELETE",
-		})
-			.then((res) => res.json())
-			.then((data) =>
-				toast(data.message, {
-					description: `${title} has been deleted successfully.`,
-				})
-			);
+		try {
+			const response = await deleteBook(id).unwrap();
+			if (response.success) {
+				toast.success(`Book "${title}" deleted successfully!`);
+			} else {
+				toast.error(response.message || "Failed to delete book.");
+			}
+		} catch (error: any) {
+			const apiMessage =
+				error.data.error.message ||
+				error.data.message ||
+				"Failed to delete book. Please try again.";
+			toast.error(apiMessage);
+			console.error("Error deleting book:", error);
+		}
 	};
 	return (
 		<TableRow key={book._id}>
@@ -90,15 +98,34 @@ const BookRow = ({ book }: { book: Book }) => {
 								</AlertDialogDescription>
 							</AlertDialogHeader>
 							<AlertDialogFooter>
-								<AlertDialogCancel>Cancel</AlertDialogCancel>
-								<AlertDialogAction
-									onClick={() =>
-										handleDelete(book._id, book.title)
-									}
-									className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-								>
-									Delete
-								</AlertDialogAction>
+								{isLoading ? (
+									<Button
+										size="sm"
+										variant="destructive"
+										disabled
+									>
+										<Loader2Icon className="animate-spin" />
+										Deleting Book
+									</Button>
+								) : (
+									<>
+										<AlertDialogCancel>
+											Cancel
+										</AlertDialogCancel>
+										<AlertDialogAction
+											onClick={() =>
+												handleDelete(
+													book._id,
+													book.title
+												)
+											}
+											className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+											disabled={isLoading}
+										>
+											Delete
+										</AlertDialogAction>
+									</>
+								)}
 							</AlertDialogFooter>
 						</AlertDialogContent>
 					</AlertDialog>
