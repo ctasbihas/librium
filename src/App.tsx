@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import { Toaster } from "./components/ui/sonner";
 
@@ -7,6 +8,7 @@ const App = () => {
 		<>
 			<Navbar />
 			<Outlet />
+			<Footer />
 			<Toaster />
 		</>
 	);

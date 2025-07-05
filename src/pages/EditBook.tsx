@@ -1,4 +1,4 @@
-import Icon from "@/assets/Librium-icon.png";
+import Icon from "@/assets/logo.png";
 import {
 	Select,
 	SelectContent,

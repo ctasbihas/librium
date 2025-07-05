@@ -1,4 +1,4 @@
-import LibriumLogo from "@/assets/Librium-icon.png";
+import Logo from "@/assets/logo.png";
 import { Menu, Plus } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { ModeToggle } from "../mode-toggle";
@@ -40,7 +40,7 @@ const Navbar = () => {
 					>
 						<div className="dark:bg-accent rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg">
 							<img
-								src={LibriumLogo}
+								src={Logo}
 								alt="Librium Logo"
 								className="w-8 md:h-10 md:w-10 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"
 							/>
@@ -92,7 +92,7 @@ const Navbar = () => {
 										<div className="flex items-center space-x-3 px-4 py-3 border-b">
 											<div className="dark:bg-accent rounded-lg shadow-lg">
 												<img
-													src={LibriumLogo}
+													src={Logo}
 													alt="Librium Logo"
 													className="h-10 w-10"
 												/>
