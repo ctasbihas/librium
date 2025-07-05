@@ -15,11 +15,12 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { useDeleteBookMutation } from "@/redux/api/booksApi";
 import type { Book } from "@/types/book.interface";
 import { Edit, Loader2Icon, Trash2 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const BookRow = ({ book }: { book: Book }) => {
 	const [deleteBook, { isLoading }] = useDeleteBookMutation();
+	const navigate = useNavigate();
 
 	const handleDelete = async (id: string, title: string) => {
 		try {
@@ -50,8 +51,17 @@ const BookRow = ({ book }: { book: Book }) => {
 			console.error("Error deleting book:", error);
 		}
 	};
+
+	const handleRowClick = () => {
+		navigate(`/books/${book._id}`);
+	};
+
 	return (
-		<TableRow key={book._id}>
+		<TableRow
+			key={book._id}
+			className="cursor-pointer hover:bg-muted/50"
+			onClick={handleRowClick}
+		>
 			<TableCell className="font-medium">{book.title}</TableCell>
 			<TableCell>{book.author}</TableCell>
 			<TableCell>{book.genre}</TableCell>
@@ -71,7 +81,10 @@ const BookRow = ({ book }: { book: Book }) => {
 				</Badge>
 			</TableCell>
 			<TableCell className="text-right">
-				<div className="flex justify-end space-x-2">
+				<div
+					className="flex justify-end space-x-2"
+					onClick={(e) => e.stopPropagation()}
+				>
 					<Link to={`/edit-book/${book._id}`}>
 						<Button
 							variant="ghost"

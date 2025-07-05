@@ -1,5 +1,6 @@
 import App from "@/App";
 import AddBook from "@/pages/AddBook";
+import Book from "@/pages/Book";
 import Books from "@/pages/Books";
 import BorrowBook from "@/pages/BorrowBook";
 import BorrowSummary from "@/pages/BorrowSummary";
@@ -18,6 +19,16 @@ const router = createBrowserRouter([
 			{
 				path: "books",
 				Component: Books,
+			},
+			{
+				path: "books/:id",
+				Component: Book,
+				loader: async ({ params }) => {
+					if (!params.id) {
+						throw new Error("Book ID is required");
+					}
+					return params.id;
+				},
 			},
 			{
 				path: "create-book",
