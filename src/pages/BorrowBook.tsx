@@ -83,7 +83,7 @@ const BorrowBook = () => {
 			await borrowBook(borrowData).unwrap();
 
 			toast.success(
-				`📚 "${bookDetails?.title || bookId}" successfully borrowed!`
+				`"${bookDetails?.title || bookId}" successfully borrowed!`
 			);
 
 			navigate("/borrow-summary");
@@ -100,7 +100,7 @@ const BorrowBook = () => {
 
 	if (isLoadingBook) {
 		return (
-			<div className="max-w-lg mx-auto p-6 bg-card shadow-lg rounded-lg">
+			<section className="max-w-lg mx-auto p-6 bg-card shadow-lg rounded-lg">
 				<div className="animate-pulse">
 					{/* Header section skeleton */}
 					<div className="mb-8 text-center">
@@ -134,7 +134,7 @@ const BorrowBook = () => {
 						<div className="h-10 bg-gray-200 rounded w-full"></div>
 					</div>
 				</div>
-			</div>
+			</section>
 		);
 	}
 
@@ -150,7 +150,7 @@ const BorrowBook = () => {
 	}
 
 	return (
-		<div className="max-w-lg mx-auto p-6 bg-card shadow-lg rounded-lg">
+		<section className="max-w-lg mx-auto py-20 p-6 bg-card shadow-lg rounded-lg">
 			<div className="mb-8 text-center animate-scale-in">
 				<Link
 					to="/books"
@@ -287,7 +287,7 @@ const BorrowBook = () => {
 					</Button>
 				</form>
 			</Form>
-		</div>
+		</section>
 	);
 };
 

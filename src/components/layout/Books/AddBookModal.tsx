@@ -119,7 +119,7 @@ const AddBookModal = ({
 					Add New Book
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[600px]">
+			<DialogContent className="sm:max-w-[600px] h-[75vh] sm:h-auto overflow-scroll">
 				<DialogHeader>
 					<DialogTitle>Add New Book</DialogTitle>
 					<DialogDescription>

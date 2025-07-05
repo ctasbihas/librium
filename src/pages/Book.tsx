@@ -1,5 +1,6 @@
 import { useGetBookByIdQuery } from "@/redux/api/booksApi";
-import { useParams } from "react-router";
+import { ArrowLeft } from "lucide-react";
+import { Link, useParams } from "react-router";
 
 const BookSkeleton = () => {
 	return (
@@ -75,7 +76,22 @@ const Book = () => {
 	};
 
 	return (
-		<section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20 animate-fade-in flex items-center justify-center min-h-[calc(100vh-65px)]">
+		<section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20 animate-fade-in flex flex-col items-center justify-center min-h-[calc(100vh-65px)]">
+			<div className="mb-8 text-center animate-scale-in">
+				<Link
+					to="/books"
+					className="inline-flex items-center text-muted-foreground hover:text-primary mb-6 transition-colors duration-300"
+				>
+					<ArrowLeft className="h-4 w-4 mr-2" />
+					Back to Books
+				</Link>
+				<h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3">
+					Details of {book.title}
+				</h1>
+				<p className="text-muted-foreground text-lg">
+					Explore the details of this book.
+				</p>
+			</div>
 			<div className="max-w-4xl mx-auto w-full">
 				<div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg dark:shadow-gray-900/50 overflow-hidden transition-all duration-300 hover:shadow-xl dark:hover:shadow-gray-900/70">
 					<div className="p-4 sm:p-6 lg:p-8">

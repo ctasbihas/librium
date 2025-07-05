@@ -148,7 +148,7 @@ const Books = () => {
 	};
 
 	return (
-		<div className="container mx-auto px-4 py-4 sm:py-8">
+		<div className="container mx-auto px-4 py-4 sm:py-8 min-h-[calc(100vh-65px)] h-auto">
 			<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4">
 				<div>
 					<h1 className="text-2xl sm:text-3xl font-bold text-primary mb-2">
