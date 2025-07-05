@@ -16,6 +16,7 @@ const Books = () => {
 	const [modal, setModal] = useState(false);
 	const { data, isLoading, isError } = useGetBooksQuery(undefined, {
 		refetchOnReconnect: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	if (isLoading && !isError) {

@@ -20,6 +20,7 @@ import {
 const BorrowSummary = () => {
 	const { data, isLoading, isError } = useGetBorrowedBooksQuery(undefined, {
 		refetchOnReconnect: true,
+		refetchOnMountOrArgChange: true,
 	});
 	const borrowSummary = data?.data as IBorrowSummary[];
 

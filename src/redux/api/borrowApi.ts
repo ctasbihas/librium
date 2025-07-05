@@ -22,7 +22,15 @@ export const borrowApi = createApi({
 					  ]
 					: [{ type: "borrow", id: "LIST" }],
 		}),
+		borrowBook: builder.mutation({
+			query: (borrowData) => ({
+				url: "/api/borrow",
+				method: "POST",
+				body: borrowData,
+			}),
+			invalidatesTags: [{ type: "borrow", id: "LIST" }],
+		}),
 	}),
 });
 
-export const { useGetBorrowedBooksQuery } = borrowApi;
+export const { useGetBorrowedBooksQuery, useBorrowBookMutation } = borrowApi;

@@ -43,11 +43,16 @@ const bookSchema = z.object({
 	isbn: z.string().min(10, "ISBN must be at least 10 characters"),
 	description: z.string().optional(),
 	copies: z.number().min(0, "Copies cannot be negative"),
+	available: z.boolean().optional(),
 });
 
 const EditBook = () => {
 	const { id } = useParams<{ id: string }>();
-	const { data, error } = useGetBookByIdQuery(id);
+	const { data, error } = useGetBookByIdQuery(id, {
+		skip: !id,
+		refetchOnReconnect: true,
+		refetchOnMountOrArgChange: true,
+	});
 	const [updateBook] = useUpdateBookMutation();
 	const navigate = useNavigate();
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,6 +81,7 @@ const EditBook = () => {
 			isbn: "",
 			description: "",
 			copies: 0,
+			available: false,
 		},
 	});
 
@@ -110,6 +116,7 @@ const EditBook = () => {
 				isbn: book.isbn,
 				description: book.description || "",
 				copies: book.copies,
+				available: book.copies > 0,
 			});
 		}
 	}, [id, book, error, navigate, form]);
@@ -167,22 +174,20 @@ const EditBook = () => {
 								onSubmit={form.handleSubmit(onSubmit)}
 								className="space-y-6"
 							>
+								<InputField
+									control={form.control}
+									name="title"
+									label="Title"
+									placeholder="Enter book title"
+								/>
+
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-									<InputField
-										control={form.control}
-										name="title"
-										label="Title"
-										placeholder="Enter book title"
-									/>
 									<InputField
 										control={form.control}
 										name="author"
 										label="Author"
 										placeholder="Enter author name"
 									/>
-								</div>
-
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 									<FormField
 										control={form.control}
 										name="genre"
@@ -193,18 +198,14 @@ const EditBook = () => {
 													onValueChange={
 														field.onChange
 													}
-													defaultValue={field.value}
+													value={field.value}
 												>
 													<FormControl>
 														<SelectTrigger>
 															<SelectValue placeholder="Select a genre" />
 														</SelectTrigger>
 													</FormControl>
-													<SelectContent
-														defaultValue={
-															field.value
-														}
-													>
+													<SelectContent>
 														{genres.map((genre) => (
 															<SelectItem
 																key={
@@ -223,6 +224,29 @@ const EditBook = () => {
 											</FormItem>
 										)}
 									/>
+								</div>
+
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<InputField
+										control={form.control}
+										name="copies"
+										label="Number of Copies"
+										placeholder="Enter number of copies"
+										type="number"
+										onChange={(e) => {
+											const value =
+												parseInt(e.target.value) || 0;
+											const finalValue = Math.max(
+												0,
+												value
+											);
+											form.setValue("copies", finalValue);
+											form.setValue(
+												"available",
+												finalValue > 0
+											);
+										}}
+									/>
 									<InputField
 										control={form.control}
 										name="isbn"
@@ -230,22 +254,6 @@ const EditBook = () => {
 										placeholder="Enter ISBN"
 									/>
 								</div>
-
-								<InputField
-									control={form.control}
-									name="copies"
-									label="Number of Copies"
-									placeholder="Enter number of copies"
-									type="number"
-									onChange={(e) => {
-										const value =
-											parseInt(e.target.value) || 0;
-										form.setValue(
-											"copies",
-											Math.max(0, value)
-										);
-									}}
-								/>
 
 								<InputField
 									control={form.control}
