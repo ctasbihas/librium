@@ -8,7 +8,8 @@ export const booksApi = createApi({
 	tagTypes: ["book"],
 	endpoints: (builder) => ({
 		getBooks: builder.query({
-			query: () => "/api/books",
+			query: ({ limit = 5, page = 1 }) =>
+				`/api/books?limit=${limit}&page=${page}`,
 			providesTags: (result) =>
 				Array.isArray(result)
 					? [
@@ -24,10 +25,6 @@ export const booksApi = createApi({
 		}),
 		getBookById: builder.query({
 			query: (id) => `/api/books/${id}`,
-			providesTags: (id) => [
-				{ type: "book", id },
-				{ type: "book", id: "LIST" },
-			],
 		}),
 		addBook: builder.mutation({
 			query: (book) => ({
